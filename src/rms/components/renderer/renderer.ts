@@ -31,6 +31,7 @@ export class Renderer extends EventEmitter implements RendererInterface {
   constructor() {
     super();
     this.play = this.play.bind(this);
+    this.render = this.render.bind(this);
   }
 
   setCanvas(type: 'plot' | 'bar', canvas: HTMLCanvasElement | OffscreenCanvas): void {
@@ -48,7 +49,7 @@ export class Renderer extends EventEmitter implements RendererInterface {
       this.bar = ctx;
     }
 
-    this.render();
+    this.renderOnce();
   }
 
   setOption<O extends keyof RendererOptions>(option: O, value: RendererOptions[O]) {
@@ -63,14 +64,14 @@ export class Renderer extends EventEmitter implements RendererInterface {
       if (option === 'play') {
         this.checkPlayback(value);
       } else {
-        this.options.play || this.render();
+        this.renderOnce();
       }
     }
   }
 
   reset(): void {
     this.offset = 0;
-    this.options.play || this.render();
+    this.renderOnce();
   }
 
   private checkPlayback(on: boolean): void {
@@ -86,6 +87,12 @@ export class Renderer extends EventEmitter implements RendererInterface {
     this.frame = requestAnimationFrame(this.play);
     ++this.offset;
     this.render();
+  }
+
+  private renderOnce(): void {
+    if (!this.options.play) {
+      this.frame = requestAnimationFrame(this.render);
+    }
   }
 
   private render(): void {

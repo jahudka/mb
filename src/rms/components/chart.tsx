@@ -78,7 +78,7 @@ type ReadoutCtx = {
   cfLog?: number;
 };
 
-const defaultReadout: ReadoutCtx = { peakLin: 0, peakLog: -Infinity };
+const defaultReadout: ReadoutCtx = { peakLin: 1, peakLog: 0 };
 const ReadoutCtx = createContext(defaultReadout);
 
 const Readout: FC = () => {
@@ -158,6 +158,6 @@ type ReadoutValueProps = {
 const ReadoutValue: FC<ReadoutValueProps> = ({ prop }) => {
   const { [prop]: value } = useContext(ReadoutCtx);
   return (
-    <input type="number" readOnly value={value?.toFixed(2) ?? ''} />
+    <input type="text" readOnly value={value?.toFixed(2) ?? ''} />
   );
 };
