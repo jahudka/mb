@@ -76,7 +76,7 @@ export class Renderer extends EventEmitter implements RendererInterface {
 
   private checkPlayback(on: boolean): void {
     if (on) {
-      this.play();
+      this.frame = requestAnimationFrame(this.play);
     } else {
       this.frame !== undefined && cancelAnimationFrame(this.frame);
       this.frame = undefined;
