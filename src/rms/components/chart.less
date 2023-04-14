@@ -1,0 +1,98 @@
+@import (reference) "variables";
+
+#chart {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+
+  .legend {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    font-size: 0.8em;
+
+    .label {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 0 8px;
+      transform: translateY(-50%);
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        width: 5px;
+        height: 0;
+        border-top: 1px solid @ui-color;
+        content: '';
+      }
+    }
+
+    &.left {
+      border-right: 1px solid @ui-color;
+
+      .label {
+        text-align: right;
+
+        &::after {
+          right: 0;
+        }
+      }
+    }
+
+    &.right {
+      border-left: 1px solid @ui-color;
+
+      .label::after {
+        left: 0;
+      }
+    }
+  }
+
+  .canvas {
+    position: relative;
+    z-index: 2;
+
+    &.plot {
+      flex: 1 1 auto;
+      margin: 1px 0;
+    }
+
+    &.bar {
+      flex: 0 0 3em;
+      margin-left: 1em;
+      border: 1px solid @ui-color;
+    }
+
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 0;
+      border-top: 1px solid @ui-color;
+      content: '';
+    }
+
+    canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .readout {
+    flex: 0 0 auto;
+    margin-left: 1em;
+
+    table {
+      border-collapse: collapse;
+    }
+
+    input {
+      text-align: right;
+    }
+  }
+}

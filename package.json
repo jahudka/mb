@@ -1,0 +1,27 @@
+{
+  "name": "mb",
+  "private": true,
+  "dependencies": {
+    "@visx/axis": "^3.1.0",
+    "@visx/grid": "^3.0.1",
+    "@visx/group": "^3.0.0",
+    "@visx/react-spring": "^3.1.0",
+    "@visx/responsive": "^3.0.0",
+    "@visx/scale": "^3.0.0",
+    "@visx/shape": "^3.0.0",
+    "@visx/xychart": "^3.1.2",
+    "classnames": "^2.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-less": "^2.8.3",
+    "@types/react": "^18.0.34",
+    "@types/react-dom": "^18.0.11",
+    "parcel": "^2.8.3",
+    "typescript": "^5.0.4"
+  },
+  "alias": {
+    "process": false
+  }
+}
