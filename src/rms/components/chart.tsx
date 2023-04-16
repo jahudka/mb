@@ -11,11 +11,11 @@ export const Chart: FC = () => {
   return (
     <div id="chart">
       <Legend width={6} placement="left">
-        <Label value={1}>{x2 ? '+12' : 0} dBFS</Label>
-        <Label value={0.5}>{x2 ? '+6' : -6} dBFS</Label>
-        <Label value={0}>-∞ dBFS</Label>
-        <Label value={-0.5}>{x2 ? '+6' : -6} dBFS</Label>
-        <Label value={-1}>{x2 ? '+12' : 0} dBFS</Label>
+        <Label value={1}>{x2 ? '+12' : 0} dB</Label>
+        <Label value={0.5}>{x2 ? '+6' : -6} dB</Label>
+        <Label value={0}>-∞ dB</Label>
+        <Label value={-0.5}>{x2 ? '+6' : -6} dB</Label>
+        <Label value={-1}>{x2 ? '+12' : 0} dB</Label>
       </Legend>
       <Canvas type="plot" />
       <Legend width={4} placement="right">
@@ -131,7 +131,7 @@ const ReadoutTable: FC = () => (
         <tr>
           <td />
           <th>lin</th>
-          <th>db</th>
+          <th>dB</th>
         </tr>
       </thead>
       <tbody>
