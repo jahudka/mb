@@ -3,6 +3,7 @@ export type RendererOptions = {
   root: boolean;
   mean: boolean;
   square: boolean;
+  x2: boolean;
   play: boolean;
 };
 

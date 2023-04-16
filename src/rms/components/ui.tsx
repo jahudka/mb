@@ -15,6 +15,7 @@ export const Ui: FC = () => {
       <Toggle prop="root">root</Toggle>
       <Toggle prop="mean">mean</Toggle>
       <Toggle prop="square">square</Toggle>
+      <Toggle prop="x2">x2</Toggle>
       <Toggle prop="play">play</Toggle>
     </>
   );

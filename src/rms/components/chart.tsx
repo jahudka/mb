@@ -5,27 +5,31 @@ import { Children } from './types';
 
 import './chart.less';
 
-export const Chart: FC = () => (
-  <div id="chart">
-    <Legend width={6} placement="left">
-      <Label value={1}>0 dBFS</Label>
-      <Label value={0.5}>-6 dBFS</Label>
-      <Label value={0}>-∞ dBFS</Label>
-      <Label value={-0.5}>-6 dBFS</Label>
-      <Label value={-1}>0 dBFS</Label>
-    </Legend>
-    <Canvas type="plot" />
-    <Legend width={4} placement="right">
-      <Label value={1} />
-      <Label value={0.5} />
-      <Label value={0} />
-      <Label value={-0.5} />
-      <Label value={-1} />
-    </Legend>
-    <Canvas type="bar" />
-    <Readout />
-  </div>
-);
+export const Chart: FC = () => {
+  const { options: { x2 } } = useAppCtx();
+
+  return (
+    <div id="chart">
+      <Legend width={6} placement="left">
+        <Label value={1}>{x2 ? '+12' : 0} dBFS</Label>
+        <Label value={0.5}>{x2 ? '+6' : -6} dBFS</Label>
+        <Label value={0}>-∞ dBFS</Label>
+        <Label value={-0.5}>{x2 ? '+6' : -6} dBFS</Label>
+        <Label value={-1}>{x2 ? '+12' : 0} dBFS</Label>
+      </Legend>
+      <Canvas type="plot" />
+      <Legend width={4} placement="right">
+        <Label value={1}>{x2 ? 4 : 1}</Label>
+        <Label value={0.5}>{x2 ? 2: 0.5}</Label>
+        <Label value={0} />
+        <Label value={-0.5}>{x2 ? -2 : -0.5}</Label>
+        <Label value={-1}>{x2 ? -4 : -1}</Label>
+      </Legend>
+      <Canvas type="bar" />
+      <Readout />
+    </div>
+  );
+}
 
 type LegendProps = Children & {
   width: number;

@@ -22,6 +22,7 @@ export class Renderer extends EventEmitter implements RendererInterface {
     root: false,
     mean: false,
     square: false,
+    x2: false,
     play: false,
   };
 
@@ -103,6 +104,8 @@ export class Renderer extends EventEmitter implements RendererInterface {
     this.plot.clearRect(0, 0, this.width, this.height);
 
     const data = sources[this.options.source].getView(this.offset, this.width);
+    const mult = this.options.x2 ? 2 : 1;
+    const scale = this.options.x2 ? 0.25 : 1;
     let peak = 0;
     let rms = 0;
 
@@ -111,14 +114,14 @@ export class Renderer extends EventEmitter implements RendererInterface {
 
 
     for (let x = 0; x < this.width; ++x) {
-      const amplitude = data[x];
+      const amplitude = mult * data[x];
       Math.abs(amplitude) > Math.abs(peak) && (peak = amplitude);
 
       if (this.options.mean) {
         rms += this.options.square ? amplitude ** 2 : amplitude;
       }
 
-      const y = (1 - amplitude) * this.height / 2;
+      const y = (1 - scale * amplitude) * this.height / 2;
       x < 1 ? this.plot.moveTo(x, y) : this.plot.lineTo(x, y);
     }
 
@@ -127,9 +130,9 @@ export class Renderer extends EventEmitter implements RendererInterface {
 
     if (this.options.mean) {
       rms /= this.width;
-      this.options.root && (rms = Math.sqrt(rms));
+      this.options.root && (rms = rms < 0 ? 0 : Math.sqrt(rms));
 
-      const y = (1 - rms) * this.height / 2;
+      const y = (1 - scale * rms) * this.height / 2;
       this.plot.beginPath();
       this.plot.moveTo(0, y);
       this.plot.lineTo(this.width, y);
@@ -141,20 +144,22 @@ export class Renderer extends EventEmitter implements RendererInterface {
 
       for (let x = 0; x < this.width; ++x) {
         const rs = this.options.root && this.options.square
-          ? Math.abs(data[x])
+          ? Math.abs(mult * data[x])
           : this.options.square
-            ? data[x] ** 2
-            : Math.sqrt(data[x]);
+            ? (mult * data[x]) ** 2
+            : Math.sqrt(mult * data[x]);
 
         if (Number.isNaN(rs)) {
+          invalid || this.plot.lineTo(x, this.height / 2);
           invalid = true;
           continue;
         }
 
         Math.abs(rs) > Math.abs(rms) && (rms = rs);
 
-        const y = (1 - rs) * this.height / 2;
-        x < 1 || invalid ? this.plot.moveTo(x, y) : this.plot.lineTo(x, y);
+        const y = (1 - scale * rs) * this.height / 2;
+        invalid && this.plot.moveTo(x - 1, this.height / 2);
+        x < 1 ? this.plot.moveTo(x, y) : this.plot.lineTo(x, y);
         invalid = false;
       }
 
@@ -165,15 +170,15 @@ export class Renderer extends EventEmitter implements RendererInterface {
 
     this.bar.strokeStyle = signalColor;
     this.bar.beginPath();
-    this.bar.moveTo(0, (1 - peak) * this.height / 2);
-    this.bar.lineTo(1, (1 - peak) * this.height / 2);
+    this.bar.moveTo(0, (1 - scale * peak) * this.height / 2);
+    this.bar.lineTo(1, (1 - scale * peak) * this.height / 2);
     this.bar.stroke();
 
     if (this.options.root || this.options.mean || this.options.square) {
       this.bar.strokeStyle = rmsColor;
       this.bar.beginPath();
-      this.bar.moveTo(0, (1 - rms) * this.height / 2);
-      this.bar.lineTo(1, (1 - rms) * this.height / 2);
+      this.bar.moveTo(0, (1 - scale * rms) * this.height / 2);
+      this.bar.lineTo(1, (1 - scale * rms) * this.height / 2);
       this.bar.stroke();
     }
 

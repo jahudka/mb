@@ -14,6 +14,7 @@ export type Options = {
   root: boolean;
   mean: boolean;
   square: boolean;
+  x2: boolean;
   play: boolean;
 };
 
@@ -50,6 +51,7 @@ const defaults: Options = {
   root: false,
   mean: false,
   square: false,
+  x2: false,
   play: false,
 };
 
